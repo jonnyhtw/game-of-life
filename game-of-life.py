@@ -86,7 +86,7 @@ def plotarray(x):
 
 
 
-size = 1000
+size = 100
 
 
 init = 'rand'
@@ -102,7 +102,7 @@ if init == 'rand':
 
     array = np.round(np.random.rand(size,size))
 
-gens = 1000
+gens = 10
 
 arrays = []
 
@@ -127,5 +127,5 @@ for i in range(gens):
 
     plt.gca().invert_yaxis()
 
-    plt.savefig('{:03}'.format(i)+'.png')
+    plt.savefig('{:04}'.format(i)+'.png')#,dpi=1000)
 

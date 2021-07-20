@@ -86,28 +86,34 @@ def plotarray(x):
 
 
 
-size = 100
+size = 1000
 
 
+init = 'rand'
 
+if init == 'glider':
 
-#glider
+    array = np.zeros(shape = (size,size))
+    array[0, 1:4] = 1
+    array[1, 3] = 1
+    array[2, 2] = 1
 
-array = np.zeros(shape = (size,size))
+if init == 'rand':
 
-array[0, 1:4] = 1
-array[1, 3] = 1
-array[2, 2] = 1
+    array = np.round(np.random.rand(size,size))
 
-
-gens = 100
+gens = 1000
 
 arrays = []
 
 fig = plt.figure(figsize=[5,5])
 
-   
-while True:    
+import matplotlib
+matplotlib.use('Agg')
+
+for i in range(gens):    
+
+    print('generation '+str(i))
 
     Nn = findneighbours(size, array)
 
@@ -117,9 +123,9 @@ while True:
 
     plotarray(array)
 
+    plt.title('generation ' + str(i))
+
     plt.gca().invert_yaxis()
 
-    plt.draw()
-    plt.pause(0.0001)
-    plt.clf()
+    plt.savefig('{:03}'.format(i)+'.png')
 

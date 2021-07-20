@@ -5,7 +5,7 @@ sys.executable
 
 
 
-
+from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
 import copy
@@ -86,7 +86,7 @@ def plotarray(x):
 
 
 
-size = 100
+size = 300
 
 
 init = 'rand'
@@ -102,22 +102,21 @@ if init == 'rand':
 
     array = np.round(np.random.rand(size,size))
 
-gens = 10
-
-arrays = []
+gens = 1000
 
 fig = plt.figure(figsize=[5,5])
 
 import matplotlib
 matplotlib.use('Agg')
 
-for i in range(gens):    
+for i in tqdm(range(gens)):
 
     print('generation '+str(i))
 
     Nn = findneighbours(size, array)
 
-    arrays.append(applyrules(size,Nn, array))
+    array = applyrules(size,Nn, array)
+
 
     ax = plt.subplot(1,1,1,aspect = 'equal')
 
@@ -127,5 +126,7 @@ for i in range(gens):
 
     plt.gca().invert_yaxis()
 
-    plt.savefig('{:04}'.format(i)+'.png')#,dpi=1000)
+    plt.savefig('{:04}'.format(i)+'.png',dpi=100)
+
+    plt.close()
 

@@ -86,7 +86,7 @@ def plotarray(x):
 
 
 
-size = 300
+size = 30
 
 
 init = 'rand'

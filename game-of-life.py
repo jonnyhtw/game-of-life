@@ -149,10 +149,15 @@ for i in tqdm(range(gens)):
 
     array = applyrules(size,Nn, array)
 
+    if init == 'gun':
+        array[0,:] = 0
+        array[-1,:] = 0
+        array[:,0] = 0
+        array[0:,-1] = 0
 
     ax = plt.subplot(1,1,1,aspect = 'equal')
 
-    plotarray(array)
+    plotarray(array[2:-2,2:-2])
 
     plt.title('generation ' + str(i))
 

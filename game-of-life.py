@@ -47,8 +47,7 @@ def findneighbours(sizex, sizey, array):
 
                 array[i-1, j+1-sizey*(j==sizey-1)],
                 array[i, j+1-sizey*(j==sizey-1)],
-                array[i+1-sizex*(i==sizex-1), j+1-sizey*(j==sizey-1)]                    
-
+                array[i+1-sizex*(i==sizex-1), j+1-sizey*(j==sizey-1)]
             ])
             
     return Nn
@@ -67,9 +66,6 @@ def plotarray(x):
 sizex = 50
 sizey = 50
 
-
-
-
 gun = np.flipud(np.array([
                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
                        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
@@ -86,13 +82,6 @@ array = np.zeros(shape = (size,size))
 for i in range(gun.shape[0]):
     for j in range(gun.shape[1]):
         array[i+20,j+10] = gun[i,j]
-
-
-
-
-#if init == 'rand':
-
-#    array = np.round(np.random.rand(size,size))
 
 gens = 1000
 

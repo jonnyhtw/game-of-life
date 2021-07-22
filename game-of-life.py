@@ -1,10 +1,3 @@
-
-import sys
-sys.executable
-
-
-
-
 from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,15 +5,10 @@ import copy
 import animatplot as amp
 from matplotlib import animation
 
-import warnings
-warnings.filterwarnings("ignore")
 
-
-
-
-def applyrules(size,Nn, array):
-    for i in range(size):
-        for j in range(size):
+def applyrules(sizex, sizey,Nn, array):
+    for i in range(sizex):
+        for j in range(sizey):
             if array[i,j]==1:
                 if Nn[i,j] < 2:# Any live cell with fewer than two
                                #live neighbours dies, as if by underpopulation.
@@ -40,37 +28,30 @@ def applyrules(size,Nn, array):
                     
     return array
 
+def findneighbours(sizex, sizey, array):
 
+    Nn = np.zeros(shape = (sizex,sizey))#number of neighbours
 
-
-def findneighbours(size, array):
-
-    Nn = np.zeros(shape = (size,size))#number of neighbours
-
-    for i in range(size):
+    for i in range(sizex):
         
-        for j in range(size):
+        for j in range(sizey):
 
             Nn[i,j] = np.sum( [
 
                 array[i-1, j-1], 
                 array[i, j-1], 
-                array[i+1-size*(i==size-1), j-1],
+                array[i+1-sizex*(i==sizex-1), j-1],
 
                 array[i-1, j],
-                array[i+1-size*(i==size-1), j],
+                array[i+1-sizex*(i==sizex-1), j],
 
-                array[i-1, j+1-size*(j==size-1)],
-                array[i, j+1-size*(j==size-1)],
-                array[i+1-size*(i==size-1), j+1-size*(j==size-1)]                    
+                array[i-1, j+1-sizey*(j==sizey-1)],
+                array[i, j+1-sizey*(j==sizey-1)],
+                array[i+1-sizex*(i==sizex-1), j+1-sizey*(j==sizey-1)]                    
 
             ])
             
-
     return Nn
-
-
-
 
 def plotarray(x):
 
@@ -83,56 +64,35 @@ def plotarray(x):
 
     return myplot
 
-
-
-
-size = 100
-
-#check if even
-
-if size % 2 != 0:
-    print('size needs to be even')
-    exit()
-
-
-init = 'gun'
-
-if init == 'gun':
-    if size <= 36:
-        print('size too small, exiting')
-        exit()
-    else:
-        gun = np.array([[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
-       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
-       [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-       [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
-       [1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-       [1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
-       [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
-       [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-       [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]])
-        array = np.zeros(shape = (size,size))
-        
-        for i in range(gun.shape[0]):
-            for j in range(gun.shape[1]):
-                array[i+int(size/2),j+int(size/4)] = gun[i,j]
-
-        array = np.flipud(array)
+sizex = 50
+sizey = 50
 
 
 
 
+gun = np.flipud(np.array([
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                       [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],
+                       [1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [1,1,0,0,0,0,0,0,0,0,1,0,0,0,1,0,1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+                       [0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+                       ]))
+array = np.zeros(shape = (size,size))
 
-if init == 'glider':
+for i in range(gun.shape[0]):
+    for j in range(gun.shape[1]):
+        array[i+20,j+10] = gun[i,j]
 
-    array = np.zeros(shape = (size,size))
-    array[0, 1:4] = 1
-    array[1, 3] = 1
-    array[2, 2] = 1
 
-if init == 'rand':
 
-    array = np.round(np.random.rand(size,size))
+
+#if init == 'rand':
+
+#    array = np.round(np.random.rand(size,size))
 
 gens = 1000
 
@@ -145,9 +105,9 @@ for i in tqdm(range(gens)):
 
     print('generation '+str(i))
 
-    Nn = findneighbours(size, array)
+    Nn = findneighbours(sizex, sizey, array)
 
-    array = applyrules(size,Nn, array)
+    array = applyrules(sizex, sizey,Nn, array)
 
     if init == 'gun':
         array[0,:] = 0

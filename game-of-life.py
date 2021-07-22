@@ -71,14 +71,12 @@ array = np.zeros(shape = (sizex,sizey))
 
 for i in range(gun.shape[0]):
     for j in range(gun.shape[1]):
-        array[i+20,j+10] = gun[i,j]
+        array[i+25,j+5] = gun[i,j]
 
 gens = 100
 
 fig = plt.figure(figsize=[5,5])
 
-import matplotlib
-matplotlib.use('Agg')
 
 for i in tqdm(range(gens)):
 

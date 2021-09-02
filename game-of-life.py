@@ -2,7 +2,6 @@ from tqdm import tqdm
 import numpy as np
 import matplotlib.pyplot as plt
 import copy
-import animatplot as amp
 from matplotlib import animation
 
 

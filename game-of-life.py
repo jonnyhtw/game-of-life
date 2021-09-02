@@ -72,7 +72,7 @@ for i in range(gun.shape[0]):
     for j in range(gun.shape[1]):
         array[i+25,j+5] = gun[i,j]
 
-gens = 100
+gens = 500
 
 fig = plt.figure(figsize=[5,5])
 

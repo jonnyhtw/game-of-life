@@ -10,8 +10,8 @@ from matplotlib import animation
 from applyrules import applyrules
 from findneighbours import findneighbours
 
-sizex = 40
-sizey = 40
+sizex = 50
+sizey = 50
 
 gun = np.genfromtxt('gun.txt')
 

@@ -1,56 +1,14 @@
 from tqdm import tqdm
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import copy
 from matplotlib import animation
 
+from applyrules import applyrules
+from plotarray import plotarray
+from findneighbours import findneighbours
 
-def applyrules(sizex, sizey,Nn, array):
-    for i in range(sizex):
-        for j in range(sizey):
-            if array[i,j]==1:
-                if ( Nn[i,j] < 2) or (Nn[i,j] > 3):
-                    array[i,j] = 0
-            else:
-                if Nn[i,j] == 3:
-                    array[i,j] = 1
-                    
-    return array
-
-def findneighbours(sizex, sizey, array):
-
-    Nn = np.zeros(shape = (sizex,sizey))#number of neighbours
-
-    for i in range(sizex):
-        
-        for j in range(sizey):
-
-            Nn[i,j] = np.sum( [
-
-                array[i-1, j-1], 
-                array[i, j-1], 
-                array[i+1-sizex*(i==sizex-1), j-1],
-
-                array[i-1, j],
-                array[i+1-sizex*(i==sizex-1), j],
-
-                array[i-1, j+1-sizey*(j==sizey-1)],
-                array[i, j+1-sizey*(j==sizey-1)],
-                array[i+1-sizex*(i==sizex-1), j+1-sizey*(j==sizey-1)]
-            ])
-            
-    return Nn
-
-def plotarray(x):
-
-    myplot = plt.imshow(x, cmap = 'Greys')
-
-    ax.axes.xaxis.set_ticklabels([])
-    ax.axes.yaxis.set_ticklabels([])
-
-    ax.tick_params(axis=u'both', which=u'both',length=0)
-
-    return myplot
 
 sizex = 40
 sizey = 50
@@ -76,7 +34,6 @@ gens = 500
 
 fig = plt.figure(figsize=[5,5])
 
-
 for i in tqdm(range(gens)):
 
     print('generation '+str(i))
@@ -85,9 +42,28 @@ for i in tqdm(range(gens)):
 
     array = applyrules(sizex, sizey,Nn, array)
 
+    array[0,:] = 0
+    array[1,:] = 0
+    array[2,:] = 0
+    array[-1,:] = 0
+    array[-2,:] = 0
+    array[-3,:] = 0
+    array[:,0] = 0
+    array[:,1] = 0
+    array[:,2] = 0
+    array[:,-1] = 0
+    array[:,-2] = 0
+    array[:,-3] = 0
+
     ax = plt.subplot(1,1,1,aspect = 'equal')
 
-    plotarray(array[2:-2,2:-2])
+    myplot = plt.imshow(array[2:-2,2:-2], cmap = 'Greys')
+
+    ax.axes.xaxis.set_ticklabels([])
+    ax.axes.yaxis.set_ticklabels([])
+
+    ax.tick_params(axis=u'both', which=u'both',length=0)
+#    plotarray(array[2:-2,2:-2])
 
     plt.title('generation ' + str(i))
 
@@ -97,3 +73,6 @@ for i in tqdm(range(gens)):
 
     plt.close()
 
+os.system('rm 0000.png')
+os.system('convert *.png game-of-life.gif')
+os.system('rm *.png')

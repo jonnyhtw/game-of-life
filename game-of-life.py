@@ -1,4 +1,6 @@
 from tqdm import tqdm
+import glob
+from PIL import Image
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -8,9 +10,8 @@ from matplotlib import animation
 from applyrules import applyrules
 from findneighbours import findneighbours
 
-
 sizex = 40
-sizey = 50
+sizey = 40
 
 gun = np.genfromtxt('gun.txt')
 
@@ -21,8 +22,6 @@ for i in range(gun.shape[0]):
         array[i+25,j+5] = gun[i,j]
 
 gens = 100
-
-#fig = plt.figure(figsize=[5,5])
 
 for i in tqdm(range(gens)):
 
@@ -38,21 +37,9 @@ for i in tqdm(range(gens)):
 
     plt.title('generation ' + str(i))
 
-#    plt.gca().invert_yaxis()
-
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 
     plt.close()
-
-#os.system('rm 0000.png')
-#os.system('convert *.png game-of-life.gif')
-#os.system('rm *.png')
-
-
-
-
-import glob
-from PIL import Image
 
 # filepaths
 fp_in = "./*.png"

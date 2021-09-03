@@ -21,7 +21,7 @@ for i in range(gun.shape[0]):
     for j in range(gun.shape[1]):
         array[i+25,j+5] = gun[i,j]
 
-gens = 100
+gens = 200
 
 for i in tqdm(range(gens)):
 
@@ -37,7 +37,9 @@ for i in tqdm(range(gens)):
 
     plt.title('generation ' + str(i))
 
+    plt.gca().set_aspect('equal', adjustable='box')
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
+
 
     plt.close()
 

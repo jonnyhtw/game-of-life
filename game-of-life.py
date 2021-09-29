@@ -13,13 +13,17 @@ from findneighbours import findneighbours
 sizex = 50
 sizey = 50
 
-gun = np.genfromtxt('gun.txt')
+_gun = True
 
-array = np.zeros(shape = (sizex,sizey))
+if _gun == True:
 
-for i in range(gun.shape[0]):
-    for j in range(gun.shape[1]):
-        array[i+25,j+5] = gun[i,j]
+    gun = np.genfromtxt('gun.txt')
+
+    array = np.zeros(shape = (sizex,sizey))
+
+    for i in range(gun.shape[0]):
+        for j in range(gun.shape[1]):
+            array[i+25,j+5] = gun[i,j]
 
 gens = 200
 
@@ -31,9 +35,13 @@ for i in tqdm(range(gens)):
 
     array = applyrules(sizex, sizey,Nn, array)
 
-    array[0,:] = array[-1,:] = array[:,0] = array[:,-1] = 0
+    if _gun:
 
-    myplot = plt.pcolor(array, cmap = 'Greys')
+        array[0,:] = array[-1,:] = array[:,0] = array[:,-1] = 0
+
+        plotarray = array[2:-3,2:-3]
+
+    myplot = plt.pcolor(plotarray, cmap = 'Greys')
 
     plt.title('generation ' + str(i))
 

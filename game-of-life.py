@@ -16,8 +16,8 @@ plt.ion()
 from applyrules import applyrules
 from findneighbours import findneighbours
 
-sizex = 500
-sizey = 500
+sizex = 100
+sizey = 100
 
 _gun = False
 
@@ -37,7 +37,11 @@ else:
 
 gens = 1000
 
+coverage = np.mean(array)
+
 for i in range(gens):
+
+    ax = plt.subplot(1,2,1)
 
     print('generation '+str(i)+' of '+str(gens)+' generations!' )
 
@@ -63,16 +67,25 @@ for i in range(gens):
 
         array[randx, randy] = 1
 
-        plt.scatter(randx, randy, color = 'b', s = 100)
+        plt.scatter(randx, randy, color = 'b', s = 100, alpha = 0.1,)
 
     plt.title('generation ' + str(i))
-
-    plt.gca().set_aspect('equal', adjustable='box')
 
     plt.gca().get_xaxis().set_ticks([])
     plt.gca().get_yaxis().set_ticks([])
 
+    coverage = np.append(coverage, (np.mean(plotarray))) 
+
+    ax = plt.subplot(1,2,2)
+
+    plt.plot(coverage)
+    plt.xlim(0,gens)
+    plt.ylim(0,1)
+
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
+
+
+    plt.tight_layout()
 
     plt.close()
 

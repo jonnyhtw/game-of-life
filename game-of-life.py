@@ -43,7 +43,7 @@ for i in range(gens):
 
     ax = plt.subplot(1,2,1)
 
-    print('generation '+str(i)+' of '+str(gens)+' generations!' )
+    print('generation '+str(i+1)+' of '+str(gens)+' generations!' )
 
     Nn = findneighbours(sizex, sizey, array)
 
@@ -67,7 +67,7 @@ for i in range(gens):
 
         array[randx, randy] = 1
 
-        plt.scatter(randx, randy, color = 'b', s = 100, alpha = 0.1,)
+        #plt.scatter(randx, randy, color = 'b', s = 100, alpha = 0.1,)
 
     plt.title('generation ' + str(i))
 
@@ -80,7 +80,7 @@ for i in range(gens):
 
     plt.plot(coverage)
     plt.xlim(0,gens)
-    plt.ylim(0,1)
+    plt.ylim(0,0.2)
 
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 

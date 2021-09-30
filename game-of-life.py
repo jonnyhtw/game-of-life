@@ -72,16 +72,16 @@ for i in range(gens):
 
     plt.title('generation ' + str(i))
 
-   # plt.gca().get_xaxis().set_ticks([])
-   # plt.gca().get_yaxis().set_ticks([])
+    plt.gca().get_xaxis().set_ticks([])
+    plt.gca().get_yaxis().set_ticks([])
 
     coverage = np.append(coverage, (np.mean(plotarray))) 
 
    # ax = plt.subplot(1,2,2)
 
     ax2.plot(coverage)
-    #plt.xlim(0,gens)
-    #plt.ylim(0,0.2)
+    plt.xlim(0,gens)
+    plt.ylim(0,0.2)
 
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 

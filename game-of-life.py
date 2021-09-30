@@ -35,7 +35,7 @@ else:
 
     array = np.random.choice([0,1],(sizex,sizey))
 
-gens = int(1e4)
+gens = int(1e2)
 
 coverage = np.mean(array)
 

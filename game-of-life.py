@@ -16,8 +16,8 @@ plt.ion()
 from applyrules import applyrules
 from findneighbours import findneighbours
 
-sizex = 100
-sizey = 100
+sizex = 50
+sizey = 50
 
 _gun = False
 
@@ -35,13 +35,14 @@ else:
 
     array = np.random.choice([0,1],(sizex,sizey))
 
-gens = 1000
+gens = 10
 
 coverage = np.mean(array)
 
 for i in range(gens):
 
-    ax = plt.subplot(1,2,1)
+    #    ax = plt.subplot(1,2,1)
+    fig, (ax1, ax2) = plt.subplots(1,2)
 
     print('generation '+str(i+1)+' of '+str(gens)+' generations!' )
 
@@ -58,7 +59,7 @@ for i in range(gens):
     else:
         plotarray = copy.deepcopy(array)
 
-    myplot = plt.imshow(plotarray, cmap = 'Greys')
+    ax1.imshow(plotarray, cmap = 'Greys', aspect = 'auto')
 
     if _gun == False:
 
@@ -71,16 +72,16 @@ for i in range(gens):
 
     plt.title('generation ' + str(i))
 
-    plt.gca().get_xaxis().set_ticks([])
-    plt.gca().get_yaxis().set_ticks([])
+   # plt.gca().get_xaxis().set_ticks([])
+   # plt.gca().get_yaxis().set_ticks([])
 
     coverage = np.append(coverage, (np.mean(plotarray))) 
 
-    ax = plt.subplot(1,2,2)
+   # ax = plt.subplot(1,2,2)
 
-    plt.plot(coverage)
-    plt.xlim(0,gens)
-    plt.ylim(0,0.2)
+    ax2.plot(coverage)
+    #plt.xlim(0,gens)
+    #plt.ylim(0,0.2)
 
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 

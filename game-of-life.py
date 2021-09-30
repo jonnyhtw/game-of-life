@@ -86,7 +86,7 @@ for i in range(gens):
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 
 
-    plt.tight_layout()
+#    plt.tight_layout()
 
     plt.close()
 

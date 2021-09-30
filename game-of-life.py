@@ -42,7 +42,7 @@ coverage = np.mean(array)
 for i in range(gens):
 
     #    ax = plt.subplot(1,2,1)
-    fig, (ax1, ax2) = plt.subplots(1,2)
+    fig, (ax1, ax2) = plt.subplots(1,2, constrained_layout=True)
 
     print('generation '+str(i+1)+' of '+str(gens)+' generations!' )
 

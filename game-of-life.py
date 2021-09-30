@@ -1,4 +1,6 @@
+import copy
 from tqdm import tqdm
+from tqdm import tqdm_gui
 import glob
 from PIL import Image
 import os
@@ -6,14 +8,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 import copy
 from matplotlib import animation
+import matplotlib
+matplotlib.use('Agg')
+
+plt.ion()
 
 from applyrules import applyrules
 from findneighbours import findneighbours
 
-sizex = 50
-sizey = 50
+sizex = 500
+sizey = 500
 
-_gun = True
+_gun = False
 
 if _gun == True:
 
@@ -25,11 +31,15 @@ if _gun == True:
         for j in range(gun.shape[1]):
             array[i+25,j+5] = gun[i,j]
 
-gens = 200
+else:
 
-for i in tqdm(range(gens)):
+    array = np.random.choice([0,1],(sizex,sizey))
 
-    print('generation '+str(i))
+gens = 1000
+
+for i in range(gens):
+
+    print('generation '+str(i)+' of '+str(gens)+' generations!' )
 
     Nn = findneighbours(sizex, sizey, array)
 
@@ -41,13 +51,28 @@ for i in tqdm(range(gens)):
 
         plotarray = array[2:-3,2:-3]
 
-    myplot = plt.pcolor(plotarray, cmap = 'Greys')
+    else:
+        plotarray = copy.deepcopy(array)
+
+    myplot = plt.imshow(plotarray, cmap = 'Greys')
+
+    if _gun == False:
+
+        randx = np.random.randint(0,sizex-1)
+        randy = np.random.randint(0,sizey-1)
+
+        array[randx, randy] = 1
+
+        plt.scatter(randx, randy, color = 'b', s = 100)
 
     plt.title('generation ' + str(i))
 
     plt.gca().set_aspect('equal', adjustable='box')
-    plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 
+    plt.gca().get_xaxis().set_ticks([])
+    plt.gca().get_yaxis().set_ticks([])
+
+    plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 
     plt.close()
 

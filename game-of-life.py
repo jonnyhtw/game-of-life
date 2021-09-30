@@ -72,8 +72,8 @@ for i in range(gens):
 
     plt.title('generation ' + str(i))
 
-    plt.gca().get_xaxis().set_ticks([])
-    plt.gca().get_yaxis().set_ticks([])
+    ax1.get_xaxis().set_ticks([])
+    ax1.get_yaxis().set_ticks([])
 
     coverage = np.append(coverage, (np.mean(plotarray))) 
 

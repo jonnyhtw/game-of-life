@@ -16,8 +16,8 @@ plt.ion()
 from applyrules import applyrules
 from findneighbours import findneighbours
 
-sizex = 50
-sizey = 50
+sizex = 100
+sizey = 100
 
 _gun = False
 
@@ -42,7 +42,7 @@ coverage = np.mean(array)
 for i in range(gens):
 
     #    ax = plt.subplot(1,2,1)
-    fig, (ax1, ax2) = plt.subplots(1,2, constrained_layout=True)
+    ax = plt.subplot(1,1,1,)
 
     print('generation '+str(i+1)+' of '+str(gens)+' generations!' )
 
@@ -59,7 +59,13 @@ for i in range(gens):
     else:
         plotarray = copy.deepcopy(array)
 
-    ax1.imshow(plotarray, cmap = 'Greys', aspect = 'auto')
+    mask = np.random.randint(0, 2, (20, 20))
+    ys, xs = np.where(plotarray.astype(bool))
+
+   # plt.imshow(mask)
+    plt.scatter(xs, ys, s = 1 )
+
+#    ax1.imshow(plotarray, cmap = 'Greys', aspect = 'auto')
 
     if _gun == False:
 
@@ -72,16 +78,16 @@ for i in range(gens):
 
     plt.title('generation ' + str(i))
 
-    ax1.get_xaxis().set_ticks([])
-    ax1.get_yaxis().set_ticks([])
+    ax.get_xaxis().set_ticks([])
+    ax.get_yaxis().set_ticks([])
 
     coverage = np.append(coverage, (np.mean(plotarray))) 
 
-   # ax = plt.subplot(1,2,2)
+    axins = ax.inset_axes([0.8, 0.1, 0.15, 0.15])
 
-    ax2.plot(coverage)
-    plt.xlim(0,gens)
-    plt.ylim(0,0.2)
+    axins.plot(coverage)
+    axins.set_xlim(0,gens)
+    axins.set_ylim(0,0.2)
 
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 

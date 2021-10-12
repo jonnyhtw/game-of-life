@@ -1,4 +1,5 @@
 import copy
+import cartopy.crs as ccrs
 from tqdm import tqdm
 from tqdm import tqdm_gui
 import glob
@@ -16,33 +17,24 @@ plt.ion()
 from applyrules import applyrules
 from findneighbours import findneighbours
 
-sizex = 100
-sizey = 100
+os.system('rm *.png')
 
-_gun = False
+sizex = 360
+sizey = 180
 
-if _gun == True:
 
-    gun = np.genfromtxt('gun.txt')
 
-    array = np.zeros(shape = (sizex,sizey))
 
-    for i in range(gun.shape[0]):
-        for j in range(gun.shape[1]):
-            array[i+25,j+5] = gun[i,j]
+array = np.random.choice([0,1],(sizex,sizey))
 
-else:
-
-    array = np.random.choice([0,1],(sizex,sizey))
-
-gens = int(1e4)
+gens = int(360)
 
 coverage = np.mean(array)
 
 for i in range(gens):
 
-    #    ax = plt.subplot(1,2,1)
-    ax = plt.subplot(1,1,1,)
+    ax = plt.subplot(1,1,1,projection = ccrs.Orthographic(central_longitude = 174.7787+i, central_latitude = 0))
+#    ax = plt.subplot(1,1,1,projection = ccrs.PlateCarree())
 
     print('generation '+str(i+1)+' of '+str(gens)+' generations!' )
 
@@ -50,49 +42,38 @@ for i in range(gens):
 
     array = applyrules(sizex, sizey,Nn, array)
 
-    if _gun:
+    plotarray = copy.deepcopy(array)
 
-        array[0,:] = array[-1,:] = array[:,0] = array[:,-1] = 0
+    xs, ys = np.where(plotarray.astype(bool))
 
-        plotarray = array[2:-3,2:-3]
+    plt.scatter(xs - 180, ys - 90, s = 1 , alpha = 0.5, transform = ccrs.PlateCarree(), c = 'r')
 
-    else:
-        plotarray = copy.deepcopy(array)
 
-    mask = np.random.randint(0, 2, (20, 20))
-    ys, xs = np.where(plotarray.astype(bool))
+    ax.coastlines()
+    ax.stock_img()
 
-   # plt.imshow(mask)
-    plt.scatter(xs, ys, s = 1 )
-
-#    ax1.imshow(plotarray, cmap = 'Greys', aspect = 'auto')
-
-    if _gun == False:
+    for j in range(int(sizex*sizey/100)):
 
         randx = np.random.randint(0,sizex-1)
         randy = np.random.randint(0,sizey-1)
 
         array[randx, randy] = 1
 
-        #plt.scatter(randx, randy, color = 'b', s = 100, alpha = 0.1,)
 
     plt.title('generation ' + str(i))
 
     ax.get_xaxis().set_ticks([])
     ax.get_yaxis().set_ticks([])
 
-    coverage = np.append(coverage, (np.mean(plotarray))) 
-
-    axins = ax.inset_axes([0.8, 0.1, 0.15, 0.15])
-
-    axins.plot(coverage)
-    axins.set_xlim(0,gens)
-    axins.set_ylim(0,0.2)
+    #coverage = np.append(coverage, (np.mean(plotarray))) 
+    #axins = ax.inset_axes([0.8, 0.1, 0.15, 0.15])
+    #axins.plot(coverage)
+    #axins.set_xlim(0,gens)
+    #axins.set_ylim(0,0.2)
 
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
 
 
-#    plt.tight_layout()
 
     plt.close()
 
@@ -103,7 +84,7 @@ fp_out = "./game-of-life.gif"
 # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
 img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))]
 img.save(fp=fp_out, format='GIF', append_images=imgs,
-         save_all=True, duration=100, loop=0)
+         save_all=True, duration=50, loop=0)
+
 
 os.system('rm *.png')
-

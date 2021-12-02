@@ -65,7 +65,6 @@ for i in range(gens):
     ax.get_yaxis().set_ticks([])
 
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
-
     plt.close()
 
 # filepaths

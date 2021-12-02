@@ -22,19 +22,13 @@ os.system('rm *.png')
 sizex = 360
 sizey = 180
 
-
-
-
 array = np.random.choice([0,1],(sizex,sizey))
 
 gens = int(360)
 
-coverage = np.mean(array)
-
 for i in range(gens):
 
     ax = plt.subplot(1,1,1,projection = ccrs.Orthographic(central_longitude = 174.7787+i, central_latitude = 0))
-#    ax = plt.subplot(1,1,1,projection = ccrs.PlateCarree())
 
     print('generation '+str(i+1)+' of '+str(gens)+' generations!' )
 
@@ -48,7 +42,6 @@ for i in range(gens):
 
     plt.scatter(xs - 180, ys - 90, s = 1 , alpha = 0.5, transform = ccrs.PlateCarree(), c = 'r')
 
-
     ax.coastlines()
     ax.stock_img()
 
@@ -59,21 +52,12 @@ for i in range(gens):
 
         array[randx, randy] = 1
 
-
     plt.title('generation ' + str(i))
 
     ax.get_xaxis().set_ticks([])
     ax.get_yaxis().set_ticks([])
 
-    #coverage = np.append(coverage, (np.mean(plotarray))) 
-    #axins = ax.inset_axes([0.8, 0.1, 0.15, 0.15])
-    #axins.plot(coverage)
-    #axins.set_xlim(0,gens)
-    #axins.set_ylim(0,0.2)
-
     plt.savefig('{:04}'.format(i)+'.png',dpi=100)
-
-
 
     plt.close()
 
@@ -85,6 +69,5 @@ fp_out = "./game-of-life.gif"
 img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))]
 img.save(fp=fp_out, format='GIF', append_images=imgs,
          save_all=True, duration=50, loop=0)
-
 
 os.system('rm *.png')

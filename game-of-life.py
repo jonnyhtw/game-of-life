@@ -26,6 +26,7 @@ sizey = 180
 
 
 array = np.random.choice([0,1],(sizex,sizey))
+array = np.zeros((sizex,sizey))
 
 gens = int(360)
 
@@ -34,7 +35,7 @@ coverage = np.mean(array)
 for i in range(gens):
 
     ax = plt.subplot(1,1,1,projection = ccrs.Orthographic(central_longitude = 174.7787+i, central_latitude = 0))
-#    ax = plt.subplot(1,1,1,projection = ccrs.PlateCarree())
+    #ax = plt.subplot(1,1,1,projection = ccrs.PlateCarree())
 
     print('generation '+str(i+1)+' of '+str(gens)+' generations!' )
 
@@ -51,13 +52,19 @@ for i in range(gens):
 
     ax.coastlines()
     ax.stock_img()
+    
+    if i == 0:
 
-    for j in range(int(sizex*sizey/100)):
+        for j in range(int(sizex*sizey/100)):
 
-        randx = np.random.randint(0,sizex-1)
-        randy = np.random.randint(0,sizey-1)
+            randx = np.random.randint(0,sizex-1)
+            randy = np.random.randint(0,sizey-1)
 
-        array[randx, randy] = 1
+            if (randx <= sizex - 2 - 1) and (randy <= sizey - 2 - 1):
+            
+                array[randx:randx+3, randy] = 1
+                array[randx+2, randy+1] = 1
+                array[randx+1, randy+2] = 1
 
 
     plt.title('generation ' + str(i))
@@ -84,7 +91,7 @@ fp_out = "./game-of-life.gif"
 # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html#gif
 img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))]
 img.save(fp=fp_out, format='GIF', append_images=imgs,
-         save_all=True, duration=50, loop=0)
+         save_all=True, duration=200, loop=0)
 
 
 os.system('rm *.png')

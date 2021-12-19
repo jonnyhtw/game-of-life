@@ -29,7 +29,7 @@ gens = int(360)
 
 for i in range(gens):
 
-    ax = plt.subplot(1,1,1,projection = ccrs.Orthographic(central_longitude = 174.7787+i, central_latitude = 0))
+    ax = plt.subplot(1,1,1,)#projection = ccrs.Orthographic(central_longitude = 174.7787+i, central_latitude = 0))
 
     print('generation '+str(i+1)+' of '+str(gens)+' generations!' )
 
@@ -41,10 +41,10 @@ for i in range(gens):
 
     xs, ys = np.where(plotarray.astype(bool))
 
-    plt.scatter(xs - 180, ys - 90, s = 1 , alpha = 0.5, transform = ccrs.PlateCarree(), c = 'r')
+    plt.scatter(xs, ys, s = 1 , alpha = 0.5, )#transform = ccrs.PlateCarree(), c = 'r')
 
-    ax.coastlines()
-    ax.stock_img()
+    #ax.coastlines()
+    #ax.stock_img()
     
     if i == 0:
 
